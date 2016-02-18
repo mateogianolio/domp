@@ -49,7 +49,6 @@
     }
 
     find(name) {
-      var copy = this;
       return this.filter(node => node.name === name);
     }
 
