@@ -1,0 +1,23 @@
+{
+  "name": "domp",
+  "version": "0.1.0",
+  "description": "Scraping and DOM tree manipulation library for Node.js.",
+  "main": "domp.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mateogianolio/domp.git"
+  },
+  "author": "Mateo Gianolio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mateogianolio/domp/issues"
+  },
+  "homepage": "https://github.com/mateogianolio/domp#readme",
+  "dependencies": {
+    "htmlparser2": "^3.9.0",
+    "request": "^2.69.0"
+  }
+}
