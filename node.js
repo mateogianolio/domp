@@ -42,10 +42,9 @@
     filter(f) {
       var copy = this;
       return (function* () {
-        for (var node of copy) {
+        for (var node of copy)
           if (f(node))
             yield node;
-        }
       }());
     }
 
