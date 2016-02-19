@@ -8,6 +8,8 @@ $ npm install domp
 
 ### Usage
 
+**Get single page:**
+
 ```javascript
 var domp = require('domp'),
     url = 'https://en.wikipedia.org/wiki/Web_scraping';
@@ -18,7 +20,7 @@ domp(url, function(dom) {
 });
 ```
 
-Multiple urls return a promise generator that can be traversed with `for ... of`:
+**Get multiple pages:**
 
 ```javascript
 var urls = [
@@ -26,17 +28,43 @@ var urls = [
   'https://en.wikipedia.org/wiki/Web',
 ];
 
-function success(dom) {
-  var links = [...dom.find('a')].map(a => [a.name, a.href]).slice(0, 10);
-  console.log(links);
-}
+// Method #1
+domp(urls, function(dom) {
+  // called twice
+})
 
-function error() {
-  console.log('error');
-}
-
+// Method #2
 for (var page of domp(urls))
-  page.then(success, error);
+  page.then(function (dom) {
+    // resolved
+  }, function (error) {
+    // rejected
+  });
+```
+
+**Crawling:**
+
+```javascript
+var url = 'https://en.wikipedia.org/wiki/Web_scraping';
+
+// filter links
+function link(node) {
+  return
+    node.name === 'a' &&
+    node.href &&
+    node.href.indexOf('http') === 0;
+}
+
+// careful, will crawl everything (url can be one or several urls)
+domp.crawl(url, function (pages, next) {
+  // pages is an iterator of promises
+  for (var page of pages)
+    page.then(function (dom) {
+      // submit new urls to crawl to the next() function
+      var links = [...dom.filter(link)].map(node => node.href);
+      next(links);
+    });
+});
 ```
 
 ### Traversal
@@ -63,10 +91,7 @@ for (var node of dom.find('p'))
 ```
 
 
-### Manipulation
-
-
-#### Mapping
+### DOM Manipulation
 
 DOM nodes (see `node.js`) implement mapping similar to what we're used to from `Array.prototype.map`, but instead of returning an `Array` it returns an `Iterable`. The `Iterable` can either be unpacked into an `Array` using the spread operator (`...`) or be used as a normal iterator.
 
@@ -82,9 +107,6 @@ for (var name of names)
 // head
 // ...
 ```
-
-
-#### Filtering
 
 Filtering works pretty much the same (returns `Iterable`):
 
