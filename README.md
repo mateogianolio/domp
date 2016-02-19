@@ -21,6 +21,27 @@ domp(url, function(error, dom) {
 });
 ```
 
+Multiple urls return a promise generator that can be traversed with `for ... of`:
+
+```javascript
+var urls = [
+  'https://en.wikipedia.org/wiki/Web_scraping',
+  'https://en.wikipedia.org/wiki/Web',
+];
+
+function success(dom) {
+  var links = [...dom.find('a')].map(a => [a.name, a.href]).slice(0, 10);
+  console.log(links);
+}
+
+function error() {
+  console.log('error');
+}
+
+for (var page of domp(urls))
+  page.then(success, error);
+```
+
 ### Traversal
 
 Standard traversal using `for ... of`:

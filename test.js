@@ -1,13 +1,21 @@
 (function () {
   'use strict';
 
-  var domp = require('./domp'),
-      url = 'https://en.wikipedia.org/wiki/Web_scraping';
+  var domp = require('./domp');
 
-  domp(url, function(error, dom) {
-    if (error)
-      throw error;
+  var urls = [
+    'https://en.wikipedia.org/wiki/Web_scraping',
+    'https://en.wikipedia.org/wiki/Web',
+  ];
 
-    console.log(...dom.map(node => node.name));
-  });
+  function success(dom) {
+    console.log([...dom.find('a')].map(a => [a.name, a.href]).slice(0, 10));
+  }
+
+  function error() {
+    console.log('request fail');
+  }
+
+  for (var page of domp(urls))
+    page.then(success, error);
 }());

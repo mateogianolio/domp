@@ -1,6 +1,6 @@
 {
   "name": "domp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scraping and DOM tree manipulation library for Node.js.",
   "main": "domp.js",
   "scripts": {
