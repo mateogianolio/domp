@@ -6,14 +6,15 @@ Scraping and DOM tree manipulation library for Node.js. Uses [htmlparser2](https
 $ npm install domp
 ```
 
+```javascript
+var domp = require('domp');
+```
+
 ### Usage
 
 **Get single page:**
 
 ```javascript
-var domp = require('domp'),
-    url = 'https://en.wikipedia.org/wiki/Web_scraping';
-
 domp(url, function(dom) {
   console.log(...dom.map(node => node.name));
   // html head meta title script ...
@@ -22,33 +23,32 @@ domp(url, function(dom) {
 
 **Get multiple pages:**
 
-```javascript
-var urls = [
-  'https://en.wikipedia.org/wiki/Web_scraping',
-  'https://en.wikipedia.org/wiki/Web',
-];
+You can scrape an `Array` of urls by
 
-// Method #1
-domp(urls, function(dom) {
-  // called twice
-})
+1. providing a callback:
 
-// Method #2
-for (var page of domp(urls))
-  page.then(function (dom) {
-    // resolved
-  }, function (error) {
-    // rejected
-  });
-```
+  ```javascript
+  domp(urls, function(dom) {
+    // called twice
+  })
+  ```
+
+2. looping through an iterator
+
+  ```javascript
+  for (var page of domp(urls))
+    page.then(function (dom) {
+      // resolved
+    }, function (error) {
+      // rejected
+    });
+  ```
 
 **Crawling:**
 
 ```javascript
-var url = 'https://en.wikipedia.org/wiki/Web_scraping';
-
-// filter links
-function link(node) {
+// detect valid urls
+function validate(node) {
   return
     node.name === 'a' &&
     node.href &&
@@ -61,7 +61,7 @@ domp.crawl(url, function (pages, next) {
   for (var page of pages)
     page.then(function (dom) {
       // submit new urls to crawl to the next() function
-      var links = [...dom.filter(link)].map(node => node.href);
+      var links = [...dom.filter(validate)].map(node => node.href);
       next(links);
     });
 });
