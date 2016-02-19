@@ -12,10 +12,7 @@ $ npm install domp
 var domp = require('domp'),
     url = 'https://en.wikipedia.org/wiki/Web_scraping';
 
-domp(url, function(error, dom) {
-  if (error)
-    throw error;
-
+domp(url, function(dom) {
   console.log(...dom.map(node => node.name));
   // html head meta title script ...
 });
