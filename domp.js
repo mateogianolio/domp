@@ -1,7 +1,9 @@
 (function () {
   'use strict';
 
-  var request = require('request');
+  var request = require('request'),
+      robots = require('robots-txt')();
+
   var Node = require('./node'),
       Parser = require('htmlparser2').Parser;
 
@@ -35,11 +37,18 @@
 
   function get(url) {
     return new Promise(function (resolve, reject) {
-      request(url, function (error, response, body) {
-        if (error || response.statusCode !== 200)
-          return reject(error);
-        resolve(parse(body));
-      });
+      robots
+        .isAllowed('domp', url)
+        .then(function (allowed) {
+          if (!allowed)
+            return;
+
+          request(url, function (error, response, body) {
+            if (error || response.statusCode !== 200)
+              return reject(error);
+            resolve(parse(body));
+          });
+        });
     });
   }
 
