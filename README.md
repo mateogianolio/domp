@@ -14,10 +14,6 @@ var domp = require('domp');
 
 #### [Get single page (`examples/single.js`)](https://github.com/mateogianolio/domp/blob/master/examples/single.js)
 
-```bash
-$ node examples/single.js
-```
-
 ```javascript
 domp(url, function(dom) {
   console.log(...dom.map(node => node.name));
