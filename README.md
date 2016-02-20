@@ -12,7 +12,7 @@ var domp = require('domp');
 
 ### Usage
 
-**Get single page:**
+#### [Get single page](https://github.com/mateogianolio/domp/blob/master/examples/single.js)
 
 ```javascript
 domp(url, function(dom) {
@@ -21,7 +21,7 @@ domp(url, function(dom) {
 });
 ```
 
-**Get multiple pages:**
+#### [Get multiple pages](https://github.com/mateogianolio/domp/blob/master/examples/multiple.js)
 
 You can scrape an `Array` of urls by
 
@@ -44,7 +44,7 @@ You can scrape an `Array` of urls by
     });
   ```
 
-**Crawling:**
+#### [Crawling](https://github.com/mateogianolio/domp/blob/master/examples/crawl.js)
 
 ```javascript
 // detect valid urls
