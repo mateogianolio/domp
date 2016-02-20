@@ -12,7 +12,11 @@ var domp = require('domp');
 
 ### Usage
 
-#### [Get single page](https://github.com/mateogianolio/domp/blob/master/examples/single.js)
+#### [Get single page (`examples/single.js`)](https://github.com/mateogianolio/domp/blob/master/examples/single.js)
+
+```bash
+$ node examples/single.js
+```
 
 ```javascript
 domp(url, function(dom) {
@@ -21,7 +25,7 @@ domp(url, function(dom) {
 });
 ```
 
-#### [Get multiple pages](https://github.com/mateogianolio/domp/blob/master/examples/multiple.js)
+#### [Get multiple pages (`examples/multiple.js`)](https://github.com/mateogianolio/domp/blob/master/examples/multiple.js)
 
 You can scrape an `Array` of urls by
 
@@ -44,26 +48,28 @@ You can scrape an `Array` of urls by
     });
   ```
 
-#### [Crawling](https://github.com/mateogianolio/domp/blob/master/examples/crawl.js)
+#### [Crawling (`examples/crawl.js`)](https://github.com/mateogianolio/domp/blob/master/examples/crawl.js)
 
 ```javascript
-// detect valid urls
-function validate(node) {
-  return
-    node.name === 'a' &&
-    node.href &&
-    node.href.indexOf('http') === 0;
+function resolve(next) {
+  return function (dom) {
+    var title = dom.find('title').next().value,
+        links = [...dom.filter(node => node.href && node.href.indexOf('http') === 0)];
+
+    // get random link
+    var link = links[Math.floor(Math.random() * links.length)];
+
+    console.log(title.text);
+    console.log(link.href);
+
+    // submit link(s) to be scraped next
+    next(link.href);
+  };
 }
 
-// careful, will crawl everything (url can be one or several urls)
-domp.crawl(url, function (pages, next) {
-  // pages is an iterator of promises
-  for (var page of pages)
-    page.then(function (dom) {
-      // submit new urls to crawl to the next() function
-      var links = [...dom.filter(validate)].map(node => node.href);
-      next(links);
-    });
+domp.crawl('https://en.wikipedia.org', function(requests, next) {
+  for (var request of requests)
+    request.then(resolve(next));
 });
 ```
 
