@@ -1,6 +1,6 @@
 # domp
 
-Scraping and DOM tree manipulation library for Node.js. Uses [htmlparser2](https://github.com/fb55/htmlparser2) for HTML parsing.
+Web scraping, crawling and DOM tree manipulation for Node.js. Uses [htmlparser2](https://github.com/fb55/htmlparser2) for HTML parsing.
 
 ```bash
 $ npm install domp
