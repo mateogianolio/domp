@@ -1,11 +1,8 @@
 {
   "name": "domp",
-  "version": "0.2.0",
-  "description": "Scraping and DOM tree manipulation library for Node.js.",
+  "version": "0.3.1",
+  "description": "Web scraping, crawling and DOM tree manipulation for Node.js.",
   "main": "domp.js",
-  "scripts": {
-    "test": "node test.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mateogianolio/domp.git"
