@@ -73,7 +73,7 @@ domp.crawl('https://en.wikipedia.org', function(requests, next) {
 });
 ```
 
-### Traversal
+### DOM Tree traversal
 
 Standard traversal using `for ... of`:
 
